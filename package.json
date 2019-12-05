@@ -1,0 +1,27 @@
+{
+  "name": "web-hw13-node-express-friendfinder",
+  "version": "1.0.0",
+  "description": "A Node.js & Express.js project",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhenyang9261/web-hw13-node-express-friendfinder.git"
+  },
+  "keywords": [
+    "Node.js",
+    "Express.js"
+  ],
+  "author": "Zhen Yang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zhenyang9261/web-hw13-node-express-friendfinder/issues"
+  },
+  "homepage": "https://github.com/zhenyang9261/web-hw13-node-express-friendfinder#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "path": "^0.12.7"
+  }
+}
