@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Friend Finder Survey</title>
+
+    <!-- Bootstrap latest compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <!-- jQuery Library link -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Project specific css -->
+    <link rel="stylesheet" href="assets/style.css" type="text/css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-4">Questions</h1>
+          <p class="lead">
+            Answer these survey questions. We will find a friend for you.
+          </p>
+        </div>
+      </div>
+
+      <section>
+        <form>
+          <div class="form-group">
+            <label for="inputName">Name (Required)</label>
+            <input type="text" class="form-control" id="inputName" />
+          </div>
+          <div class="form-group">
+            <label for="inputLink">Link to Photo Image (Required)</label>
+            <input type="text" class="form-control" id="inputLink" />
+          </div>
+          <div class="questions"></div>
+          <button type="submit" class="btn btn-primary submit">Submit</button>
+        </form>
+      </section>
+
+      <footer class="footer">
+        <div class="container">
+          <p>
+            <a href="/api/friends">API Friends List</a> |
+            <a
+              href="https://github.com/zhenyang9261/web-hw13-node-express-friendfinder"
+              >Github Repo</a
+            >
+          </p>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
+
+<script>
+  // Global variables
+  var answers = [
+    "0 (Strongly Disagree)",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5 (Strongly Agree)"
+  ];
+
+  // Object that holds question list and related functions
+  var questions = {
+    questionList: [
+      {
+        id: 1,
+        question:
+          "Your mind is always buzzing with unexplored ideas and plans.",
+        answers: answers
+      },
+      {
+        id: 2,
+        question:
+          "Generally speaking, you rely more on your experience than your imagination.",
+        answers: answers
+      },
+      {
+        id: 3,
+        question:
+          "You find it easy to stay relaxed and focused even when there is some pressure.",
+        answers: answers
+      },
+      {
+        id: 4,
+        question: "You rarely do something just out of sheer curiosity.",
+        answers: answers
+      },
+      {
+        id: 5,
+        question: "People can rarely upset you.",
+        answers: answers
+      },
+      {
+        id: 6,
+        question:
+          "It is often difficult for you to relate to other people’s feelings.",
+        answers: answers
+      },
+      {
+        id: 7,
+        question:
+          "In a discussion, truth should be more important than people’s sensitivities.",
+        answers: answers
+      },
+      {
+        id: 8,
+        question: "You rarely get carried away by fantasies and ideas.",
+        answers: answers
+      },
+      {
+        id: 9,
+        question:
+          "You think that everyone’s views should be respected regardless of whether they are supported by facts or not.",
+        answers: answers
+      },
+      {
+        id: 10,
+        question:
+          "You feel more energetic after spending time with a group of people.",
+        answers: answers
+      }
+    ],
+
+    populate: function() {
+      console.log("populate");
+      for (var i = 0; i < this.questionList.length; i++) {
+        var questionItem = this.questionList[i];
+
+        var questionDiv = $("<div>");
+        questionDiv.attr("class", "form-group");
+        questionDiv.attr("id", `question-${questionItem.id}`);
+
+        var questionNo = $("<div>");
+        questionNo.text(`Question ${questionItem.id}`);
+        questionNo.attr("class", "question-no");
+
+        var label = $("<label>");
+        label.text(questionItem.question);
+
+        var answerSelect = $("<select>");
+        answerSelect.attr("class", "form-control");
+
+        for (var j = 0; j < questionItem.answers.length; j++) {
+          var optionItem = questionItem.answers[i];
+
+          var option = $("<option>");
+          option.text(optionItem);
+          option.attr("id", j);
+
+          answerSelect.append(option);
+        }
+
+        questionDiv.append(questionNo);
+        questionDiv.append(label);
+        questionDiv.append(answerSelect);
+
+        $(".questions").append(questionDiv);
+      }
+    }
+  };
+
+  //$(document).ready(function() {
+  // Button Listeners
+  console.log("on load");
+  questions.populate();
+
+  $(document).on("click", ".answerSelect", function() {
+    //questionList.answer($(this).attr("value"));
+  });
+  //});
+</script>
