@@ -26,27 +26,43 @@
 
   <body>
     <div class="container">
-      <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-          <h1 class="display-4">Questions</h1>
-          <p class="lead">
-            Answer these survey questions. We will find a friend for you.
-          </p>
-        </div>
+      <div class="jumbotron">
+        <h1>
+          <span class="fa fa-file-text-o"></span>&nbsp;&nbsp;Survey Questions
+        </h1>
+        <hr class="my-4" />
+        <p class="lead">
+          Answer these questions. We will find you a friend with the greatest
+          compatibility!
+        </p>
+
+        <a class="btn btn-primary btn-lg" href="/" role="button"
+          ><span class="fa fa-home"></span>&nbsp;&nbsp;Back to Home</a
+        >
       </div>
 
       <section>
-        <form>
+        <form class="survey-form">
           <div class="form-group">
             <label for="inputName">Name (Required)</label>
             <input type="text" class="form-control" id="input-name" />
           </div>
+
           <div class="form-group">
             <label for="inputLink">Link to Photo Image (Required)</label>
             <input type="text" class="form-control" id="input-link" />
           </div>
+
           <div class="questions"></div>
-          <button type="submit" class="btn btn-primary submit">Submit</button>
+
+          <div id="info"></div>
+
+          <button type="submit" class="btn btn-primary btn-lg" id="submit">
+            Submit
+          </button>
+          <button type="reset" class="btn btn-primary btn-lg" id="reset">
+            Reset
+          </button>
         </form>
       </section>
 
@@ -60,7 +76,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <img id="friend-img" src="" width="80%" height="80%" />
+              <img id="friend-img" src="" width="70%" height="auto" />
             </div>
             <div class="modal-footer">
               <button
@@ -68,7 +84,7 @@
                 class="btn btn-primary"
                 data-dismiss="modal"
               >
-                Close Windows
+                Close Window
               </button>
             </div>
           </div>
@@ -156,20 +172,25 @@
     ],
 
     populate: function() {
+      // Loop through all questions and populate the html questions div with questions and answer selections
       for (var i = 0; i < this.questionList.length; i++) {
         var questionItem = this.questionList[i];
 
+        // Question div
         var questionDiv = $("<div>");
         questionDiv.attr("class", "form-group");
         questionDiv.attr("id", `question-${questionItem.id}`);
 
+        // Question title div
         var questionNo = $("<div>");
         questionNo.text(`Question ${questionItem.id}`);
         questionNo.attr("class", "question-no");
 
+        // Question text (label)
         var label = $("<label>");
         label.text(questionItem.question);
 
+        // Answer selections
         var answerSelect = $("<select>");
         answerSelect.attr("class", "form-control");
         answerSelect.attr("id", "answer-select" + i);
@@ -177,8 +198,10 @@
           var optionItem = questionItem.answers[j];
 
           var optionText;
+          var option = $("<option>");
           if (optionItem === "0") {
             optionText = "Please select an option.";
+            option.attr("selected", "selected");
           } else if (optionItem === "1") {
             optionText = optionItem + " (Strongly Disagree)";
           } else if (optionItem === "5") {
@@ -187,7 +210,6 @@
             optionText = optionItem;
           }
 
-          var option = $("<option>");
           option.text(optionText);
           option.attr("id", `id-${optionItem}`);
           option.attr("value", optionItem);
@@ -195,6 +217,7 @@
           answerSelect.append(option);
         }
 
+        // Put everything together here
         questionDiv.append(questionNo);
         questionDiv.append(label);
         questionDiv.append(answerSelect);
@@ -203,57 +226,78 @@
       }
     },
 
-    clearFields: function() {
-      $("#input-name").val("");
+    clear: function() {
+      $("select").val("0");
     }
   };
 
-  // Display the questions
+  // Compose questions div
   questions.populate();
 
-  $(document).on("click", ".answerSelect", function() {
-    //questionList.answer($(this).attr("value"));
-  });
-
-  $(".submit").on("click", function(event) {
+  // Submit button listener
+  $("#submit").on("click", function(event) {
     event.preventDefault();
 
-    var answers = [];
-    for (var i = 0; i < questions.questionList.length; i++) {
-      answers.push(
-        $("#answer-select" + i)
-          .children("option:selected")
-          .val()
-      );
+    // Reset validation error information div
+    $("#info").attr("style", "display: none;");
+
+    // User input capture and validation
+    var name = $("#input-name")
+      .val()
+      .trim();
+    var link = $("#input-link")
+      .val()
+      .trim();
+
+    if (!name || !link) {
+      $("#info").attr("style", "display: block;");
+      $("#info").text("Input field cannot be empty.");
+      return;
     }
 
-    // Compose an object with form elements
+    // Get answer selections
+    var answers = [];
+    for (var i = 0; i < questions.questionList.length; i++) {
+      var answerSelected = $("#answer-select" + i)
+        .children("option:selected")
+        .val();
+
+      if (!answerSelected || answerSelected === "0") {
+        $("#info").attr("style", "display: block;");
+        $("#info").text("All questions must be answered.");
+        return;
+      }
+      answers.push(answerSelected);
+    }
+
+    // Compose an object with form element values
     var newFriendMatch = {
-      name: $("#input-name")
-        .val()
-        .trim(),
-      link: $("#input-link")
-        .val()
-        .trim(),
+      name: name,
+      link: link,
       answers: answers
     };
 
+    // Send POST request to server
     $.post("/api/survey", newFriendMatch, function(data) {
-      // If a table is available... tell user they are booked.
+      // Show the modal with data returned
       if (data) {
         $("#friend-name").text(data.name);
         $("#friend-img").attr("src", data.photo);
         $("#friend-modal").modal("show");
       }
 
-      // If a table is available... tell user they on the waiting list.
+      // Something is wrong. Advise users
       else {
+        $("#info").attr("style", "display: block;");
+        $("#info").text(
+          "Something is wrong at the server side. Please try again later."
+        );
       }
 
-      // Clear the form when submitting
+      // Clear the form after submitting
       $("#input-name").val("");
       $("#input-link").val("");
-      questions.clearFields();
+      questions.clear();
     });
   });
 </script>
