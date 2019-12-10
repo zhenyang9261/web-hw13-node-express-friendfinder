@@ -60,12 +60,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <p>
-                Recommended
-              </p>
-              <p class="text-secondary">
-                <small>Click Close to close window.</small>
-              </p>
+              <img id="friend-img" src="" width="80%" height="80%" />
             </div>
             <div class="modal-footer">
               <button
@@ -243,20 +238,17 @@
       answers: answers
     };
 
-    console.log(newFriendMatch);
-
     $.post("/api/survey", newFriendMatch, function(data) {
       // If a table is available... tell user they are booked.
       if (data) {
-        $("#friend-name").text(data);
+        $("#friend-name").text(data.name);
+        $("#friend-img").attr("src", data.photo);
         $("#friend-modal").modal("show");
       }
 
       // If a table is available... tell user they on the waiting list.
       else {
       }
-
-      $("#modal").attr("style", "display:block;");
 
       // Clear the form when submitting
       $("#input-name").val("");
