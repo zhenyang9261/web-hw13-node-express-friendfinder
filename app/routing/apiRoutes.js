@@ -11,5 +11,7 @@ module.exports = function(app) {
   });
 
   // API POST request
-  app.post("/api/survey", function(req, res) {});
+  app.post("/api/survey", function(req, res) {
+    res.json("Jenny");
+  });
 };

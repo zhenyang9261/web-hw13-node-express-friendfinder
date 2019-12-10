@@ -16,8 +16,12 @@
     <!-- jQuery Library link -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
+    <!-- Bootstrap JS link -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
     <!-- Project specific css -->
-    <link rel="stylesheet" href="assets/style.css" type="text/css" />
+    <link rel="stylesheet" href="style.css" type="text/css" />
   </head>
 
   <body>
@@ -45,6 +49,36 @@
           <button type="submit" class="btn btn-primary submit">Submit</button>
         </form>
       </section>
+
+      <div id="friend-modal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="friend-name"></h5>
+              <button type="button" class="close" data-dismiss="modal">
+                &times;
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>
+                Recommended
+              </p>
+              <p class="text-secondary">
+                <small>Click Close to close window.</small>
+              </p>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-dismiss="modal"
+              >
+                Close Windows
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <footer class="footer">
         <div class="container">
@@ -214,13 +248,15 @@
     $.post("/api/survey", newFriendMatch, function(data) {
       // If a table is available... tell user they are booked.
       if (data) {
-        console.log("success");
+        $("#friend-name").text(data);
+        $("#friend-modal").modal("show");
       }
 
       // If a table is available... tell user they on the waiting list.
       else {
-        console.log("else");
       }
+
+      $("#modal").attr("style", "display:block;");
 
       // Clear the form when submitting
       $("#input-name").val("");
