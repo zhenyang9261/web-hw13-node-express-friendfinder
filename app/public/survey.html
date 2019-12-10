@@ -26,13 +26,19 @@
 
   <body>
     <div class="container">
-      <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-          <h1 class="display-4">Questions</h1>
-          <p class="lead">
-            Answer these survey questions. We will find a friend for you.
-          </p>
-        </div>
+      <div class="jumbotron">
+        <h1>
+          <span class="fa fa-file-text-o"></span>&nbsp;&nbsp;Survey Questions
+        </h1>
+        <hr class="my-4" />
+        <p class="lead">
+          Answer these questions. We will find you a friend with the greatest
+          compatibility!
+        </p>
+
+        <a class="btn btn-primary btn-lg" href="/" role="button"
+          ><span class="fa fa-home"></span>&nbsp;&nbsp;Back to Home</a
+        >
       </div>
 
       <section>
@@ -46,7 +52,9 @@
             <input type="text" class="form-control" id="input-link" />
           </div>
           <div class="questions"></div>
-          <button type="submit" class="btn btn-primary submit">Submit</button>
+          <button type="submit" class="btn btn-primary btn-lg submit">
+            Submit
+          </button>
         </form>
       </section>
 
@@ -60,7 +68,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <img id="friend-img" src="" width="80%" height="80%" />
+              <img id="friend-img" src="" width="70%" height="auto" />
             </div>
             <div class="modal-footer">
               <button
@@ -68,7 +76,7 @@
                 class="btn btn-primary"
                 data-dismiss="modal"
               >
-                Close Windows
+                Close Window
               </button>
             </div>
           </div>

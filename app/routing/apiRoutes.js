@@ -47,6 +47,7 @@ module.exports = function(app) {
       if (sumDiff < smallestDiff) {
         smallestDiff = sumDiff;
         index = i;
+        console.log(`index: ${index}`);
       }
     }
 
