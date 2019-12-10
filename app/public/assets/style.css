@@ -2,14 +2,23 @@ body {
   font-size: 1.1rem;
 }
 
-.questions {
-  margin: 1.5rem 0;
-  padding: 1.2rem 0;
+.survey-form {
+  margin: 1.5rem 1.5rem 1.5rem 0;
+  padding: 1rem 0;
 }
 
 .question-no {
   font-weight: bold;
   font-size: 1.3rem;
+}
+
+#info {
+  font-weight: bold;
+  color: red;
+}
+
+#reset {
+  margin-left: 1.5rem;
 }
 
 .footer {
