@@ -42,8 +42,8 @@
       </div>
 
       <section>
-        <form>
-          <div class="form-group survey-form">
+        <form class="survey-form">
+          <div class="form-group">
             <label for="inputName">Name (Required)</label>
             <input type="text" class="form-control" id="input-name" />
           </div>
@@ -198,8 +198,10 @@
           var optionItem = questionItem.answers[j];
 
           var optionText;
+          var option = $("<option>");
           if (optionItem === "0") {
             optionText = "Please select an option.";
+            option.attr("selected", "selected");
           } else if (optionItem === "1") {
             optionText = optionItem + " (Strongly Disagree)";
           } else if (optionItem === "5") {
@@ -208,7 +210,6 @@
             optionText = optionItem;
           }
 
-          var option = $("<option>");
           option.text(optionText);
           option.attr("id", `id-${optionItem}`);
           option.attr("value", optionItem);
@@ -226,7 +227,7 @@
     },
 
     clear: function() {
-      $("select").prop("selectedIndex", 0);
+      $("select").val("0");
     }
   };
 
@@ -261,7 +262,7 @@
         .children("option:selected")
         .val();
 
-      if (!answerSelected || answerSelected === 0) {
+      if (!answerSelected || answerSelected === "0") {
         $("#info").attr("style", "display: block;");
         $("#info").text("All questions must be answered.");
         return;
