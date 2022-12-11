@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/zhenyang9261/web-hw13-node-express-friendfinder#readme",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "path": "^0.12.7"
   },
   "scripts": {
